@@ -21,35 +21,35 @@
 -- INSERT INTO OpenCourses VALUES(200708, 4);
 
 -- select
---   course_name
---   , case when count(case when OC.month = '200706' then CM.course_id else null end) > 0 then '○' else '×' end as "6月"
---   , case when count(case when OC.month = '200707' then CM.course_id else null end) > 0 then '○' else '×' end as "7月"
---   , case when count(case when OC.month = '200708' then CM.course_id else null end) > 0 then '○' else '×' end as "8月"
--- from CourseMaster CM inner join OpenCourses OC
---   on CM.course_id = OC.course_id
--- group by course_name, OC.course_id
--- order by OC.course_id
--- ;
+  course_name
+  , case when count(case when OC.month = '200706' then CM.course_id else null end) > 0 then '○' else '×' end as "6月"
+  , case when count(case when OC.month = '200707' then CM.course_id else null end) > 0 then '○' else '×' end as "7月"
+  , case when count(case when OC.month = '200708' then CM.course_id else null end) > 0 then '○' else '×' end as "8月"
+from CourseMaster CM inner join OpenCourses OC
+  on CM.course_id = OC.course_id
+group by course_name, OC.course_id
+order by OC.course_id
+;
 
 -- INを使う
--- select
---   course_name
---   , case when course_id in (
---     select course_id
---     from OpenCourses
---     where month = '200706'
---   ) then '○' else '×' end "6月"
---   , case when course_id in (
---     select course_id
---     from OpenCourses
---     where month = '200707'
---   ) then '○' else '×' end "7月"
---   , case when course_id in (
---     select course_id
---     from OpenCourses
---     where month = '200708'
---   ) then '○' else '×' end "8月"
--- from CourseMaster
+select
+  course_name
+  , case when course_id in (
+    select course_id
+    from OpenCourses
+    where month = '200706'
+  ) then '○' else '×' end "6月"
+  , case when course_id in (
+    select course_id
+    from OpenCourses
+    where month = '200707'
+  ) then '○' else '×' end "7月"
+  , case when course_id in (
+    select course_id
+    from OpenCourses
+    where month = '200708'
+  ) then '○' else '×' end "8月"
+from CourseMaster
 
 -- existを使う
 select

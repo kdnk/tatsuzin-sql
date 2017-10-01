@@ -11,9 +11,9 @@
 -- INSERT INTO Products VALUES('バナナ',	50);
 --
 
--- select P1.name, P2.name
--- from Products P1 cross join Products P2
--- ;
+select P1.name, P2.name
+from Products P1 cross join Products P2
+;
 --   name  |  name
 -- --------+--------
 --  りんご | りんご
@@ -27,9 +27,9 @@
 --  バナナ | バナナ
 -- (9 rows)
 
--- select P1.name, P2.name
--- from Products P1 cross join Products P2
--- where P1.name <> P2.name
+select P1.name, P2.name
+from Products P1 cross join Products P2
+where P1.name <> P2.name
 -- ;
 --   name  |  name
 -- --------+--------
@@ -41,10 +41,10 @@
 --  バナナ | みかん
 -- (6 rows)
 
--- select P1.name, P2.name
--- from Products P1 cross join Products P2
--- where P1.name > P2.name
--- ;
+select P1.name, P2.name
+from Products P1 cross join Products P2
+where P1.name > P2.name
+;
 --   name  |  name
 -- --------+--------
 --  りんご | みかん
@@ -52,11 +52,11 @@
 --  バナナ | りんご
 -- (3 rows)
 
--- select distinct P1.name
--- from Products P1 inner join Products P2
---   on P1.price = P2.price
---     and P1.name <> P2.name
--- ;
+select distinct P1.name
+from Products P1 inner join Products P2
+  on P1.price = P2.price
+    and P1.name <> P2.name
+;
 --   name
 -- --------
 --  みかん
@@ -66,14 +66,14 @@
 --  いちご
 -- (5 rows)
 
--- select *
--- from Products P1
--- where exists (
---   select P2.price
---   from Products P2
---   where P1.name <> P2.name and P1.price = P2.price
--- )
--- ;
+select *
+from Products P1
+where exists (
+  select P2.price
+  from Products P2
+  where P1.name <> P2.name and P1.price = P2.price
+)
+;
 --   name  | price
 -- --------+-------
 --  りんご |    50
@@ -84,12 +84,12 @@
 -- (5 rows)
 
 -- -- ランキング olap
--- select
---   name
---   , rank() over (order by price)
---   , dense_rank() over (order by price)
--- from Products
--- ;
+select
+  name
+  , rank() over (order by price)
+  , dense_rank() over (order by price)
+from Products
+;
 --   name  | rank | dense_rank
 -- --------+------+------------
 --  レモン |    1 |          1
@@ -131,3 +131,34 @@ select
 from Products P1
 order by rank
 ;
+--   name  | rank
+-- --------+------
+--  みかん |    1
+--  スイカ |    2
+--  りんご |    3
+--  ぶどう |    3
+--  バナナ |    3
+--  レモン |    6
+-- (6 rows)
+
+select P1.name, P2.name
+from Products P1 left outer join Products P2
+  on P1.price < P2.price and P1.name <> P2.name
+order by P1.price desc
+;
+-- name  |  name
+-- --------+--------
+-- みかん |
+-- スイカ | みかん
+-- ぶどう | みかん
+-- ぶどう | スイカ
+-- りんご | みかん
+-- りんご | スイカ
+-- バナナ | みかん
+-- バナナ | スイカ
+-- レモン | ぶどう
+-- レモン | スイカ
+-- レモン | バナナ
+-- レモン | りんご
+-- レモン | みかん
+-- (13 rows)

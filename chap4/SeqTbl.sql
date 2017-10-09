@@ -14,3 +14,8 @@ where (seq + 1) NOT IN (
   from SeqTbl
 )
 ;
+
+select case when count(*) = max(seq) then '歯抜けなし' else '歯抜あり' end
+from SeqTbl
+having count(*) <> max(seq)
+;
